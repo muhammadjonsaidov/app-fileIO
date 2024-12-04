@@ -1,50 +1,52 @@
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        file();
-    }
+        Scanner scanner = new Scanner(System.in);
 
-
-    private static void file() {
         try {
-            int takeYear = 2024;
-            int month = 12;
+            System.out.println("Enter the year:");
+            int year = scanner.nextInt();
 
             String folderName;
             String fileName;
 
-            for (int i = 1; i <= month; i++) {
-                LocalDate date = LocalDate.of(takeYear, i, 1);
-                folderName = date.getMonth().toString();
+            for (int month = 1; month <= 12; month++) {
+                Month currentMonth = Month.of(month);
 
+                folderName = currentMonth.getDisplayName(TextStyle.FULL, new Locale("uz"));
                 Path path1 = Paths.get("./src/" + folderName);
                 Files.createDirectories(path1);
 
-                for (int j = 1; j <= date.lengthOfMonth(); j++) {
-                    folderName = (j + " - " + date.getMonth());
-                    Path path12 = Paths.get(path1 + folderName);
-                    Files.createDirectories(path12);
+                LocalDate currentDate = LocalDate.of(year, month, 1);
+                int daysInMonth = currentDate.lengthOfMonth();
 
-                    for (int k = 0; k < date.getDayOfMonth(); k++) {
-                        LocalDate curr = LocalDate.of(takeYear, i, j);
-                        LocalTime time = LocalTime.now();
+                for (int day = 1; day <= daysInMonth; day++) {
+                    LocalDate date = LocalDate.of(year, month, day);
 
-                        fileName = (curr + ".txt");
-                        Path path123 = Paths.get(path12 + fileName);
+                    folderName = day + "-" + currentMonth.getDisplayName(TextStyle.FULL, new Locale("uz"));
+                    Path path2 = Paths.get(path1 + "/" + folderName);
+                    Files.createDirectories(path2);
 
-                        String content = curr + " " + time;
-                        Files.writeString(path123, content);
-                    }
+                    LocalDateTime dateTime = LocalDateTime.of(date, LocalTime.now());
+                    fileName = date + ".txt";
+                    Path path3 = Paths.get(path2 + "/" + fileName);
+
+                    String data = dateTime.toString();
+                    Files.write(path3, data.getBytes());
                 }
-
             }
-        } catch (IOException e) {
+            System.out.println("All files has been successfully created");
+        } catch (Exception e) {
             System.err.println("Failed: " + e.getMessage());
         }
     }
