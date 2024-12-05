@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import java.util.Scanner;
@@ -41,7 +42,7 @@ public class Main {
                     fileName = date + ".txt";
                     Path path3 = Paths.get(path2 + "/" + fileName);
 
-                    String data = dateTime.toString();
+                    String data = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")).toString();
                     Files.write(path3, data.getBytes());
                 }
             }
