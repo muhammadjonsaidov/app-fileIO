@@ -42,7 +42,7 @@ public class Main {
                     fileName = date + ".txt";
                     Path path3 = Paths.get(path2 + "/" + fileName);
 
-                    String data = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")).toString();
+                    String data = dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
                     Files.write(path3, data.getBytes());
                 }
             }
